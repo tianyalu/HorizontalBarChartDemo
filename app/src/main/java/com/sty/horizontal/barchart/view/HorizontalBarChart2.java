@@ -71,6 +71,7 @@ public class HorizontalBarChart2 extends RelativeLayout {
     private void init(Context context){
         this.mContext = context;
         this.mHorizontalBarChart2 = this;
+        //添加布局监听器，以获得view的真实高度
         getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
@@ -78,12 +79,12 @@ public class HorizontalBarChart2 extends RelativeLayout {
                     if(!isHeaderChanged) {
                         isHeaderChanged = true;
 
-                        //获得本View的高度
+                        //因为布局监听器可能会被多次调用，所以需要及时注销
                         getViewTreeObserver().removeOnGlobalLayoutListener(this);
                         height = getHeight();
                         int fillViewHeight = height / 2;
 
-                        //重新设置header的高度
+                        //重新设置header的高度--让上方的填充线填满上半屏
                         View fillDataView = headerView.findViewById(R.id.fill_top);
                         LinearLayout.LayoutParams paramsDataView = (LinearLayout.LayoutParams) fillDataView.getLayoutParams();
                         paramsDataView.height = fillViewHeight;
@@ -92,7 +93,7 @@ public class HorizontalBarChart2 extends RelativeLayout {
                         fillDataView.setLayoutParams(paramsDataView);
                         headerView.setLayoutParams(paramsItemView);
 
-                        //重新设置footer的高度
+                        //重新设置footer的高度--//让下方的填充线填满下半屏
                         View fillDataView2 = footerView.findViewById(R.id.fill_top);
                         LinearLayout.LayoutParams paramsDataView2 = (LinearLayout.LayoutParams) fillDataView2.getLayoutParams();
                         paramsDataView2.height = fillViewHeight;

@@ -63,15 +63,17 @@ public class HorizontalBarChart extends RelativeLayout {
     }
 
     private void init(){
+        //添加布局监听器，以获得view的真实高度
         getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
                 if(isCompleteShow){
+                    //因为布局监听器可能会被多次调用，所以需要及时注销
                     getViewTreeObserver().removeOnGlobalLayoutListener(this);
                     height = getHeight();
                     lineLocation = height / 2;
 
-                    //Log.i("sty", "-------" + lineLocation);
+                    //让上方的填充线填满上半屏
                     View footFillView = footView.findViewById(R.id.fill_top);
                     LinearLayout.LayoutParams footFillLp = (LinearLayout.LayoutParams)footFillView.getLayoutParams();
                     footFillLp.height = lineLocation;
@@ -80,6 +82,7 @@ public class HorizontalBarChart extends RelativeLayout {
                     footFillView.setLayoutParams(footFillLp);
                     footView.setLayoutParams(footLp);
 
+                    //让下方的填充线填满下半屏
                     View headFillView = headView.findViewById(R.id.fill_top);
                     LinearLayout.LayoutParams headFillLp = (LinearLayout.LayoutParams)headFillView.getLayoutParams();
                     headFillLp.height = lineLocation;
